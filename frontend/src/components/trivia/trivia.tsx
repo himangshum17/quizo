@@ -14,6 +14,9 @@ const Trivia = ({ question, answers }: TriviaProps) => {
           </Button>
         ))}
       </div>
+      <Button variant={"default"} className="mt-8 w-full py-6 capitalize">
+        check answer
+      </Button>
     </div>
   );
 };
