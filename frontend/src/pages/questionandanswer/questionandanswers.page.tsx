@@ -4,7 +4,12 @@ import Trivia from "@/components/trivia/trivia";
 const quizData = {
   id: 1,
   question: "What is the only continent with land in all four hemispheres?",
-  answers: ["Asia", "Africa", "Europe", "South America"],
+  answers: [
+    { id: 1, value: "Asia" },
+    { id: 2, value: "Africa" },
+    { id: 3, value: "Europe" },
+    { id: 4, value: "America" },
+  ],
   correctAnswer: "answer1",
 };
 const QuestionandAnswer = () => {
