@@ -31,7 +31,7 @@ const NameEntry = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
-    navigate(ROUTES.QUESTIOANDANSWER);
+    navigate(ROUTES.SELECTCATEGORY);
   }
   return (
     <div className="grid h-screen place-content-center bg-gray-200">
