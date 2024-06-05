@@ -10,6 +10,9 @@ module.exports = {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
+    fontFamily: {
+      sans: ["Roboto"],
+    },
     container: {
       center: true,
       padding: "1rem",
