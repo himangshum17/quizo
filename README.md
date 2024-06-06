@@ -78,8 +78,8 @@ The backend server will run on http://localhost:5000.
 2. **Start the frontend development server:**
 
 ```bash
-   cd frontend
-   pnpm dev
+cd frontend
+pnpm dev
 ```
 
 The frontend server will run on http://localhost:5173.
