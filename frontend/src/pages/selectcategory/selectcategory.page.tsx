@@ -6,42 +6,42 @@ const categoryList = [
   {
     id: 1,
     name: 'Fun Quizzes',
-    image: 'https://blog.woobox.com/wp-content/uploads/8-Best-Quiz-Ideas-to-Entertain-Inform-Your-Audience-v1.png',
+    image: 'https://placehold.co/400',
   },
   {
     id: 2,
     name: 'Trivia Quizzes',
-    image: 'https://blog.woobox.com/wp-content/uploads/8-Best-Quiz-Ideas-to-Entertain-Inform-Your-Audience-v1.png',
+    image: 'https://placehold.co/400',
   },
   {
     id: 3,
     name: 'Animal Quizzes',
-    image: 'https://blog.woobox.com/wp-content/uploads/8-Best-Quiz-Ideas-to-Entertain-Inform-Your-Audience-v1.png',
+    image: 'https://placehold.co/400',
   },
   {
     id: 4,
     name: 'Education Quizzes',
-    image: 'https://blog.woobox.com/wp-content/uploads/8-Best-Quiz-Ideas-to-Entertain-Inform-Your-Audience-v1.png',
+    image: 'https://placehold.co/400',
   },
   {
     id: 5,
     name: 'Car Quizzes',
-    image: 'https://blog.woobox.com/wp-content/uploads/8-Best-Quiz-Ideas-to-Entertain-Inform-Your-Audience-v1.png',
+    image: 'https://placehold.co/400',
   },
   {
     id: 6,
     name: 'Beauty Quizzes',
-    image: 'https://blog.woobox.com/wp-content/uploads/8-Best-Quiz-Ideas-to-Entertain-Inform-Your-Audience-v1.png',
+    image: 'https://placehold.co/400',
   },
   {
     id: 7,
     name: 'Blogging Quizzes',
-    image: 'https://blog.woobox.com/wp-content/uploads/8-Best-Quiz-Ideas-to-Entertain-Inform-Your-Audience-v1.png',
+    image: 'https://placehold.co/400',
   },
   {
     id: 8,
     name: 'Business Quizzes',
-    image: 'https://blog.woobox.com/wp-content/uploads/8-Best-Quiz-Ideas-to-Entertain-Inform-Your-Audience-v1.png',
+    image: 'https://placehold.co/400',
   },
 ]
 const SelectCategory = () => {
