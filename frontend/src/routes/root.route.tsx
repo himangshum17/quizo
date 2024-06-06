@@ -8,7 +8,7 @@ export const router = createBrowserRouter([
     element: <NameEntry />,
   },
   {
-    path: ROUTES.QUESTIOANDANSWER,
+    path: `${ROUTES.QUESTIOANDANSWER}/:id`,
     element: <QuestionandAnswer />,
   },
   {

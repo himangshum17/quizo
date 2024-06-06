@@ -1,5 +1,6 @@
 import Timer from "@/components/timer/timer";
 import Trivia from "@/components/trivia/trivia";
+import { useParams } from "react-router-dom";
 // mock data
 const quizData = {
   id: 1,
@@ -13,6 +14,8 @@ const quizData = {
   correctAnswer: "answer1",
 };
 const QuestionandAnswer = () => {
+  const params = useParams();
+  const { id } = params;
   return (
     <div className="grid h-screen place-content-center bg-neutral-200">
       <div className="container max-w-2xl space-y-12">
