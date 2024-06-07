@@ -10,8 +10,9 @@ type Answer = {
 type TriviaProps = {
   question: string;
   answers: Answer[];
+  submitHandler: () => void;
 };
-const Trivia = ({ question, answers }: TriviaProps) => {
+const Trivia = ({ question, answers,submitHandler }: TriviaProps) => {
   return (
     <div className="rounded-md border bg-white p-10 shadow-2xl">
       <h2 className="py-4 text-xl">{question}</h2>
@@ -35,7 +36,7 @@ const Trivia = ({ question, answers }: TriviaProps) => {
           </div>
         ))}
       </RadioGroup>
-      <Button variant={"default"} className="mt-8 w-full py-6 uppercase">
+      <Button variant={"default"} className="mt-8 w-full py-6 uppercase" onClick={submitHandler}>
         Proceed
       </Button>
     </div>

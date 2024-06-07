@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { ROUTES } from "@/routes";
-import { Link } from "react-router-dom";
+import { Link, createSearchParams } from "react-router-dom";
 
 const categoryList = [
   {
@@ -54,7 +54,7 @@ const SelectCategory = () => {
         <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {categoryList.map((item) => {
             return (
-              <Link to={`${ROUTES.QUESTIOANDANSWER}/${item?.id}`} key={item.id}>
+              <Link to={`${ROUTES.QUESTIOANDANSWER}/${item?.id}?${createSearchParams({ page: '1' })}`} key={item.id}>
                 <Card>
                   <CardHeader>
                     <img
