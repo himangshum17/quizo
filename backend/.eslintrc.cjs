@@ -8,6 +8,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'airbnb-base',
     'airbnb-typescript/base',
+    'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -19,6 +20,12 @@ module.exports = {
   rules: {
     'linebreak-style': 'off',
     'no-console': 'off',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
   ignorePatterns: ['dist', '.eslintrc.cjs'],
 };
