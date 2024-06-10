@@ -21,20 +21,20 @@ type TriviaProps = {
 };
 const Trivia = ({ quizData }: TriviaProps) => {
   const { toast } = useToast()
-  const [isButtonEnable, setIsButtonEnable] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page');
   let pageNumber: number = Number(page);
 
   const optionHandler = () => {
-    if (isButtonEnable) {
-      setIsButtonEnable(false);
+    if (isButtonDisabled) {
+      setIsButtonDisabled(false);
     }
   }
 
   const submitHandler = () => {
     if (quizData[pageNumber]) {
-      setIsButtonEnable(true);
+      setIsButtonDisabled(true);
       pageNumber += 1;
       setSearchParams(`page=${pageNumber}`);
       return false;
@@ -67,7 +67,7 @@ const Trivia = ({ quizData }: TriviaProps) => {
           </div>
         ))}
       </RadioGroup>
-      <Button variant={"default"} className="mt-8 w-full py-6 uppercase" disabled={isButtonEnable} onClick={submitHandler}>
+      <Button variant={"default"} className="mt-8 w-full py-6 uppercase" disabled={isButtonDisabled} onClick={submitHandler}>
         Proceed
       </Button>
     </div>
