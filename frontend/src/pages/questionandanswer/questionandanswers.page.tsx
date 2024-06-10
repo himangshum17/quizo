@@ -15,14 +15,14 @@ const quizData = [
   },
   {
     id: 2,
-    question: 'What is the largest lake in the world?',
+    question: "What is the largest lake in the world?",
     answers: [
-      { id: 1, value: 'Caspian Sea' },
-      { id: 2, value: 'Baikal' },
-      { id: 3, value: 'Lake Superior' },
-      { id: 4, value: 'Ontario' },
-    ]
-  }
+      { id: 1, value: "Caspian Sea" },
+      { id: 2, value: "Baikal" },
+      { id: 3, value: "Lake Superior" },
+      { id: 4, value: "Ontario" },
+    ],
+  },
 ];
 const QuestionandAnswer = () => {
   return (
