@@ -1,6 +1,5 @@
 import Timer from "@/components/timer/timer";
 import Trivia from "@/components/trivia/trivia";
-import { useParams, useSearchParams } from "react-router-dom";
 // mock data
 const quizData = [
   {
@@ -26,29 +25,11 @@ const quizData = [
   }
 ];
 const QuestionandAnswer = () => {
-  const params = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get('page');
-  // const pagingNumber = Number(page);
-  let pageNumber: number = Number(page);
-  const { id } = params;
-
-  const submitHandler = () => {
-    if (quizData[pageNumber]) {
-      pageNumber += 1;
-      setSearchParams(`page=${pageNumber}`);
-      return false;
-    }
-    alert('No question are available !');
-  }
-  if (pageNumber === null) {
-    return <div>Not found</div>
-  }
   return (
     <div className="grid h-screen place-content-center bg-neutral-200">
       <div className="container max-w-2xl space-y-12">
         <Timer />
-        <Trivia {...quizData[pageNumber - 1]} submitHandler={submitHandler} />
+        <Trivia quizData={quizData} />
       </div>
     </div>
   );
