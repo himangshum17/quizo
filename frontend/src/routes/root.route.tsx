@@ -4,9 +4,9 @@ import {
   QuestionandAnswer,
   Register,
   SelectCategory,
-} from '@/pages';
-import { createBrowserRouter } from 'react-router-dom';
-import { ROUTES } from '@/routes';
+} from "@/pages";
+import { createBrowserRouter } from "react-router-dom";
+import { ROUTES } from "@/routes";
 
 export const router = createBrowserRouter([
   {

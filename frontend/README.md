@@ -1,7 +1,9 @@
 ## Quizo Frontend
+
 ---
 
 ##### Tech stack
+
 - React
 - Typescript
 - React router dom
