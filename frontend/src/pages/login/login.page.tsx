@@ -67,7 +67,7 @@ const Login = () => {
                     <FormLabel>Username</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Ex: John Doe"
+                        placeholder="Ex: John123"
                         {...field}
                         className="h-14 rounded-full"
                       />
