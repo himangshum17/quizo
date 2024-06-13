@@ -15,11 +15,9 @@ const Timer = () => {
     };
   }, [timer]);
   return (
-    <div className="mx-auto grid h-44 w-44 place-content-center rounded-full border border-gray-600">
-      <span className="text-6xl font-bold">
-        {coreutils.padWithLeadingZeros(timer, 2)}
-      </span>
-    </div>
+    <span className="text-2xl font-bold text-gray-700">
+      {coreutils.padWithLeadingZeros(timer, 2)}
+    </span>
   );
 };
 export default Timer;
