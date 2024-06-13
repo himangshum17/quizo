@@ -26,10 +26,19 @@ const quizData = [
 ];
 const QuestionandAnswer = () => {
   return (
-    <div className="grid h-screen place-content-center bg-neutral-200">
-      <div className="container max-w-2xl space-y-12">
-        <Timer />
-        <Trivia quizData={quizData} />
+    <div className="grid min-h-screen place-content-center bg-neutral-200 py-20">
+      <div className="container space-y-12">
+        <div className="flex justify-between">
+          <h1 className="text-2xl font-bold tracking-tight text-gray-700 lg:text-3xl">
+            Hello, Koushik
+          </h1>
+          <div className="flex items-center gap-2">
+            Timer : <Timer />
+          </div>
+        </div>
+        <div className="max-w-2xl">
+          <Trivia quizData={quizData} />
+        </div>
       </div>
     </div>
   );
