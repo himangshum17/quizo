@@ -1,6 +1,6 @@
 export const ROUTES = {
-  HOMEPAGE: '/',
-  QUESTIOANDANSWER: '/questionandanswer',
-  SELECTCATEGORY: '/selectcategory',
-  LOGIN: '/login',
+  HOMEPAGE: "/",
+  QUESTIOANDANSWER: "/questionandanswer",
+  SELECTCATEGORY: "/selectcategory",
+  LOGIN: "/login",
 };
