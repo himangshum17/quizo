@@ -3,4 +3,5 @@ export const ROUTES = {
   QUESTIOANDANSWER: "/questionandanswer",
   SELECTCATEGORY: "/selectcategory",
   LOGIN: "/login",
+  REGISTER: "/register",
 };

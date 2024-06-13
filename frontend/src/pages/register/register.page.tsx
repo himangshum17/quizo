@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -6,24 +6,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { ROUTES } from "@/routes";
-import { useEffect } from "react";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '@/routes';
+import { useEffect } from 'react';
 const formSchema = z.object({
+  fullname: z.string().min(2).max(50),
   username: z.string().min(2).max(50),
+  email: z.string().email(),
   password: z.string().min(8).max(50),
 });
-const Login = () => {
+const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      fullname: '',
+      username: '',
+      email: '',
+      password: '',
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -47,25 +51,35 @@ const Login = () => {
         />
       </div>
       <div className="col-span-5 bg-white px-10 py-20">
-        <h1 className="mx-auto max-w-xl text-4xl font-bold tracking-tight text-gray-600 lg:text-5xl">
-          Quizo
-        </h1>
         <div className="mx-auto mt-12 flex h-full max-w-xl flex-col justify-center">
           <h2 className="text-2xl font-bold tracking-tight text-gray-700 lg:text-4xl">
-            Hello, Welcome!
+            Register!
           </h2>
           <p className="mt-4 text-base">
-            <Link to={ROUTES.REGISTER} className="underline">
-              {" "}
-              <strong>Create a free account</strong>
-            </Link>
-            , or login to get started with <strong>Quizo</strong>
+            Please complete to create your account with <strong>Quizo</strong>,
           </p>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="mt-12 space-y-4"
             >
+              <FormField
+                control={form.control}
+                name="fullname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ex: John Doe"
+                        {...field}
+                        className="h-14 rounded-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="username"
@@ -75,6 +89,23 @@ const Login = () => {
                     <FormControl>
                       <Input
                         placeholder="Ex: John123"
+                        {...field}
+                        className="h-14 rounded-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ex: John@example.com"
                         {...field}
                         className="h-14 rounded-full"
                       />
@@ -101,15 +132,17 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <Link to="#" className="mt-2 flex justify-end text-sm">
-                Forgot Password?
-              </Link>
               <Button
                 type="submit"
                 className="h-16 w-full rounded-full uppercase tracking-wide"
               >
-                log in
+                register
               </Button>
+              <p>
+                <Link to={ROUTES.LOGIN} className="underline">
+                  Already had an account? Take me to Login page.
+                </Link>
+              </p>
             </form>
           </Form>
         </div>
@@ -117,4 +150,4 @@ const Login = () => {
     </section>
   );
 };
-export default Login;
+export default Register;
