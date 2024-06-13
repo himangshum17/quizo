@@ -1,4 +1,10 @@
-import { Login, NameEntry, QuestionandAnswer, SelectCategory } from '@/pages';
+import {
+  Login,
+  NameEntry,
+  QuestionandAnswer,
+  Register,
+  SelectCategory,
+} from '@/pages';
 import { createBrowserRouter } from 'react-router-dom';
 import { ROUTES } from '@/routes';
 
@@ -18,5 +24,9 @@ export const router = createBrowserRouter([
   {
     path: ROUTES.LOGIN,
     element: <Login />,
+  },
+  {
+    path: ROUTES.REGISTER,
+    element: <Register />,
   },
 ]);
