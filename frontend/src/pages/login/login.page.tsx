@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/routes';
+import { useEffect } from 'react';
 const formSchema = z.object({
   username: z.string().min(2).max(50),
   password: z.string().min(2).max(50),
@@ -30,6 +31,12 @@ const Login = () => {
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
+  useEffect(() => {
+    if (form.formState.isSubmitSuccessful) {
+      form.reset();
+    }
+  }, [form, form.formState.isSubmitSuccessful]);
+
   return (
     <section className="min-h-dvh md:grid md:grid-cols-12 md:overflow-hidden">
       <div className="col-span-7">
