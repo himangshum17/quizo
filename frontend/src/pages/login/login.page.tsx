@@ -101,7 +101,10 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <Link to="#" className="mt-2 flex justify-end text-sm">
+              <Link
+                to={ROUTES.FORGOTPASSWORD}
+                className="mt-2 flex justify-end text-sm"
+              >
                 Forgot Password?
               </Link>
               <Button

@@ -4,4 +4,5 @@ export const ROUTES = {
   SELECTCATEGORY: "/selectcategory",
   LOGIN: "/login",
   REGISTER: "/register",
+  FORGOTPASSWORD: "/forgotpassword",
 };
