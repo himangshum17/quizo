@@ -15,15 +15,13 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "@/routes";
 import { useEffect } from "react";
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
-  password: z.string().min(8).max(50),
+  email: z.string().email(),
 });
-const Login = () => {
+const ForgotPassword = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      email: "",
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -47,19 +45,12 @@ const Login = () => {
         />
       </div>
       <div className="col-span-5 bg-white px-10 py-20">
-        <h1 className="mx-auto max-w-xl text-4xl font-bold tracking-tight text-gray-600 lg:text-5xl">
-          Quizo
-        </h1>
         <div className="mx-auto mt-12 flex h-full max-w-xl flex-col justify-center">
           <h2 className="text-2xl font-bold tracking-tight text-gray-700 lg:text-4xl">
-            Hello, Welcome!
+            Forgot Password?
           </h2>
           <p className="mt-4 text-base">
-            <Link to={ROUTES.REGISTER} className="underline">
-              {" "}
-              <strong>Create a free account</strong>
-            </Link>
-            , or login to get started with <strong>Quizo</strong>
+            No worries, we will reset instruction
           </p>
           <Form {...form}>
             <form
@@ -68,13 +59,13 @@ const Login = () => {
             >
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Ex: John123"
+                        placeholder="Ex: John@example.com"
                         {...field}
                         className="h-14 rounded-full"
                       />
@@ -83,36 +74,32 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your password"
-                        {...field}
-                        className="h-14 rounded-full"
-                        type="password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Link
-                to={ROUTES.FORGOTPASSWORD}
-                className="mt-2 flex justify-end text-sm"
-              >
-                Forgot Password?
-              </Link>
               <Button
                 type="submit"
                 className="h-16 w-full rounded-full uppercase tracking-wide"
               >
-                log in
+                reset password
               </Button>
+              <Link
+                to={ROUTES.LOGIN}
+                className="!mt-12 flex justify-center gap-2 text-base"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                  />
+                </svg>
+                Back to Login
+              </Link>
             </form>
           </Form>
         </div>
@@ -120,4 +107,4 @@ const Login = () => {
     </section>
   );
 };
-export default Login;
+export default ForgotPassword;

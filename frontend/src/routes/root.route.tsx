@@ -1,4 +1,5 @@
 import {
+  ForgotPassword,
   Login,
   NameEntry,
   QuestionandAnswer,
@@ -28,5 +29,9 @@ export const router = createBrowserRouter([
   {
     path: ROUTES.REGISTER,
     element: <Register />,
+  },
+  {
+    path: ROUTES.FORGOTPASSWORD,
+    element: <ForgotPassword />,
   },
 ]);
