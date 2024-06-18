@@ -1,7 +1,6 @@
 import {
   ForgotPassword,
   Login,
-  NameEntry,
   QuestionandAnswer,
   Register,
   SelectCategory,
@@ -12,7 +11,7 @@ import { ROUTES } from "@/routes";
 export const router = createBrowserRouter([
   {
     path: ROUTES.HOMEPAGE,
-    element: <NameEntry />,
+    element: <Login />,
   },
   {
     path: `${ROUTES.QUESTIOANDANSWER}/:id`,
