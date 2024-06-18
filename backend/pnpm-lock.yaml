@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@prisma/client':
+        specifier: 5.15.1
+        version: 5.15.1(prisma@5.15.1)
       express:
         specifier: ^4.18.2
         version: 4.19.2
@@ -48,6 +51,9 @@ importers:
       prettier:
         specifier: 3.3.1
         version: 3.3.1
+      prisma:
+        specifier: ^5.15.1
+        version: 5.15.1
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.13.0)(typescript@5.3.3)
@@ -115,6 +121,30 @@ packages:
   '@pkgr/core@0.1.1':
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
+  '@prisma/client@5.15.1':
+    resolution: {integrity: sha512-fmZRGmsUJ9+VwC/AvfP/PwdpD0xAEyPvNsD9/B3+GYpETq9VejVRT3PiqNvl76q1uYYzNZeo8u/LmzzTetHSEg==}
+    engines: {node: '>=16.13'}
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+
+  '@prisma/debug@5.15.1':
+    resolution: {integrity: sha512-NQjdEplhXEcPvf84ghxExC+LD+iTimbg3sZvA3BhybVQIocBEBxFf9GTHhmRVPmjrWoBaYJBVgEEBXZT27JTbQ==}
+
+  '@prisma/engines-version@5.15.1-1.5675a3182f972f1a8f31d16eee6abf4fd54910e3':
+    resolution: {integrity: sha512-7csphKGCG6n/cN1MkT1mJvQ78Ir18IknlYZ8eyEoLKdQBb0HscR/6TyPmzqrMA7Rz01K1KeXqctwAqxtA/lKQg==}
+
+  '@prisma/engines@5.15.1':
+    resolution: {integrity: sha512-1iTRxJEFvpBpEWf2bYiMG6LBBQhX7X+GA5piH+tmPWgc/v+/ElxQf2kjQxby8AErmZqtZkdoKJ7FSRjNjBPE9Q==}
+
+  '@prisma/fetch-engine@5.15.1':
+    resolution: {integrity: sha512-mj0wfsJ+mAdDp1ynT2JKxAXa+CoYMT267qF7g2Uv+oaVTI2CMfGWouMARht8T2QLTgl+gpXSFTwIYbcR+oWEtw==}
+
+  '@prisma/get-platform@5.15.1':
+    resolution: {integrity: sha512-oFccp7bYys+ZYkmtYzjR+0cRrGKvSuF+h5QhSkyEsYQ9kzJzQRvuWt2SiHRPt8xOQ4MTmujM+bP5uOexnnAHdQ==}
 
   '@tsconfig/node10@1.0.11':
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
@@ -1049,6 +1079,11 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  prisma@5.15.1:
+    resolution: {integrity: sha512-pYsUVpTlYvZ6mWvZKDv9rKdUa7tlfSUJY1CVtgb8Had1pHbIm9fr1MBASccr5XnSuCUrjnvKhWNwgSYy6aCajA==}
+    engines: {node: '>=16.13'}
+    hasBin: true
+
   proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
@@ -1399,6 +1434,31 @@ snapshots:
       fastq: 1.17.1
 
   '@pkgr/core@0.1.1': {}
+
+  '@prisma/client@5.15.1(prisma@5.15.1)':
+    optionalDependencies:
+      prisma: 5.15.1
+
+  '@prisma/debug@5.15.1': {}
+
+  '@prisma/engines-version@5.15.1-1.5675a3182f972f1a8f31d16eee6abf4fd54910e3': {}
+
+  '@prisma/engines@5.15.1':
+    dependencies:
+      '@prisma/debug': 5.15.1
+      '@prisma/engines-version': 5.15.1-1.5675a3182f972f1a8f31d16eee6abf4fd54910e3
+      '@prisma/fetch-engine': 5.15.1
+      '@prisma/get-platform': 5.15.1
+
+  '@prisma/fetch-engine@5.15.1':
+    dependencies:
+      '@prisma/debug': 5.15.1
+      '@prisma/engines-version': 5.15.1-1.5675a3182f972f1a8f31d16eee6abf4fd54910e3
+      '@prisma/get-platform': 5.15.1
+
+  '@prisma/get-platform@5.15.1':
+    dependencies:
+      '@prisma/debug': 5.15.1
 
   '@tsconfig/node10@1.0.11': {}
 
@@ -2474,6 +2534,10 @@ snapshots:
       fast-diff: 1.3.0
 
   prettier@3.3.1: {}
+
+  prisma@5.15.1:
+    dependencies:
+      '@prisma/engines': 5.15.1
 
   proxy-addr@2.0.7:
     dependencies:
