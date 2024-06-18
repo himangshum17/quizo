@@ -4,10 +4,17 @@ import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import { router } from "@/routes";
 import { Toaster } from "@/components/ui/toaster";
+import { Provider } from "react-redux";
+import { persistor, store } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-    <Toaster />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+        <Toaster />
+      </PersistGate>
+    </Provider>
   </React.StrictMode>,
 );
