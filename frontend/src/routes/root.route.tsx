@@ -7,6 +7,7 @@ import {
 } from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
 import { ROUTES } from "@/routes";
+import ProtectedRoute from "./protected.route";
 
 export const router = createBrowserRouter([
   {
@@ -15,11 +16,19 @@ export const router = createBrowserRouter([
   },
   {
     path: `${ROUTES.QUESTIOANDANSWER}/:id`,
-    element: <QuestionandAnswer />,
+    element: (
+      <ProtectedRoute path={`/${ROUTES.QUESTIOANDANSWER}/:id`}>
+        <QuestionandAnswer />
+      </ProtectedRoute>
+    ),
   },
   {
     path: ROUTES.SELECTCATEGORY,
-    element: <SelectCategory />,
+    element: (
+      <ProtectedRoute path={`/${ROUTES.SELECTCATEGORY}`}>
+        <SelectCategory />
+      </ProtectedRoute>
+    ),
   },
   {
     path: ROUTES.LOGIN,
