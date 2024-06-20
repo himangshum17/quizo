@@ -13,6 +13,20 @@ export const createUser = async (req: Request, res: Response) => {
       });
     }
 
+    if (username.length < 2) {
+      return res.json({
+        status: 400,
+        message: "Please enter a username of at least 2 characters.",
+      });
+    }
+
+    if (password.length < 8) {
+      return res.json({
+        status: 400,
+        message: "Please enter a password of at least 8 characters.",
+      });
+    }
+
     const isUserEmailExists = await prisma.user.findUnique({
       where: {
         email,
