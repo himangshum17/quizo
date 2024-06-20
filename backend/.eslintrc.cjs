@@ -27,6 +27,7 @@ module.exports = {
       },
       { singleQuote: true },
     ],
+    "import/prefer-default-export": "off",
   },
   ignorePatterns: ["dist", ".eslintrc.cjs"],
 };
