@@ -51,7 +51,12 @@ export const createUser = async (req: Request, res: Response) => {
 
     return res.json({
       status: 200,
-      data: newUser,
+      data: {
+        id: newUser.id,
+        fullname: newUser.fullname,
+        username: newUser.username,
+        email: newUser.email,
+      },
       message: "User created successfully",
     });
   } catch (error) {
