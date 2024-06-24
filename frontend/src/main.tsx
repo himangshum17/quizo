@@ -7,7 +7,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Provider } from "react-redux";
 import { persistor, store } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
-
+// temporarily check for login
+export const ISLOGIN = true;
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
