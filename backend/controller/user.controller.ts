@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import prisma from "../config/db.config";
 
 export const createUser = async (req: Request, res: Response) => {
@@ -45,20 +46,34 @@ export const createUser = async (req: Request, res: Response) => {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
+    // createting the new user in DB
     const newUser = await prisma.user.create({
       data: { fullname, username, email, password: passwordHash },
     });
 
-    return res.json({
-      status: 200,
-      data: {
-        id: newUser.id,
-        fullname: newUser.fullname,
-        username: newUser.username,
-        email: newUser.email,
+    // signing the token
+    const token = jwt.sign(
+      {
+        user: newUser.id,
       },
-      message: "User created successfully",
-    });
+      process.env.JWT_SECRET as string,
+    );
+
+    // sending the token as a HTTP-only cookie and userObject
+    return res
+      .cookie("AUTHENTICATED_USER_TOKEN", token, {
+        httpOnly: true,
+      })
+      .json({
+        status: 200,
+        resultObject: {
+          id: newUser.id,
+          fullname: newUser.fullname,
+          username: newUser.username,
+          email: newUser.email,
+        },
+        message: "User created successfully",
+      });
   } catch (error) {
     return res.status(500).send();
   }
