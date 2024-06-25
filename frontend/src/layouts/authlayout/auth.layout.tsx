@@ -1,9 +1,10 @@
-import { ISLOGIN } from "@/main";
 import { ROUTES } from "@/routes";
+import { useAppSelector } from "@/store/hooks";
 import { Navigate, Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
-  if (ISLOGIN) {
+  const isLogin = useAppSelector((state) => state.auth.isLoggedIn);
+  if (isLogin) {
     return <Navigate to={ROUTES.SELECTCATEGORY} replace={true} />;
   }
 
