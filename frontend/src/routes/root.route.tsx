@@ -1,37 +1,49 @@
+import { Navigate, createBrowserRouter } from "react-router-dom";
+import { ROUTES, AUTH_ROUTE_PREFIX, SECURE_ROUTE_PREFIX } from "@/routes";
 import {
   ForgotPassword,
   Login,
-  NameEntry,
   QuestionandAnswer,
   Register,
   SelectCategory,
 } from "@/pages";
-import { createBrowserRouter } from "react-router-dom";
-import { ROUTES } from "@/routes";
+import { AuthLayout, SecureLayout } from "@/layouts";
 
 export const router = createBrowserRouter([
   {
     path: ROUTES.HOMEPAGE,
-    element: <NameEntry />,
+    element: <Navigate to={ROUTES.SELECTCATEGORY} />,
   },
   {
-    path: `${ROUTES.QUESTIOANDANSWER}/:id`,
-    element: <QuestionandAnswer />,
+    path: SECURE_ROUTE_PREFIX,
+    element: <SecureLayout />,
+    children: [
+      {
+        path: `${ROUTES.QUESTIOANDANSWER}/:id`,
+        element: <QuestionandAnswer />,
+      },
+      {
+        path: ROUTES.SELECTCATEGORY,
+        element: <SelectCategory />,
+      },
+    ],
   },
   {
-    path: ROUTES.SELECTCATEGORY,
-    element: <SelectCategory />,
-  },
-  {
-    path: ROUTES.LOGIN,
-    element: <Login />,
-  },
-  {
-    path: ROUTES.REGISTER,
-    element: <Register />,
-  },
-  {
-    path: ROUTES.FORGOTPASSWORD,
-    element: <ForgotPassword />,
+    path: AUTH_ROUTE_PREFIX,
+    element: <AuthLayout />,
+    children: [
+      {
+        path: ROUTES.LOGIN,
+        element: <Login />,
+      },
+      {
+        path: ROUTES.REGISTER,
+        element: <Register />,
+      },
+      {
+        path: ROUTES.FORGOTPASSWORD,
+        element: <ForgotPassword />,
+      },
+    ],
   },
 ]);

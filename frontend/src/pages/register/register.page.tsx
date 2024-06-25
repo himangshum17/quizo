@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -6,14 +6,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { ROUTES } from '@/routes';
-import { useEffect } from 'react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { ROUTES } from "@/routes";
+import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import {
+  createNewUser,
+  registerData,
+} from "@/services/auth/register/register.service";
+import { userLogin } from "@/store/reducer/auth";
+import { useAppDispatch } from "@/store/hooks";
 const formSchema = z.object({
   fullname: z.string().min(2).max(50),
   username: z.string().min(2).max(50),
@@ -24,17 +31,28 @@ const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullname: '',
-      username: '',
-      email: '',
-      password: '',
+      fullname: "",
+      username: "",
+      email: "",
+      password: "",
+    },
+  });
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const createNewUserSuccess = (data: registerData) => {
+    dispatch(userLogin(data));
+    navigate(ROUTES.SELECTCATEGORY);
+  };
+  const { mutateAsync: createNewUserMutateAsync } = useMutation({
+    mutationFn: createNewUser,
+    onSuccess: (data) => {
+      createNewUserSuccess(data);
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    createNewUserMutateAsync(values);
   }
+
   useEffect(() => {
     if (form.formState.isSubmitSuccessful) {
       form.reset();

@@ -15,14 +15,14 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "@/routes";
 import { useEffect } from "react";
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  email: z.string().email(),
   password: z.string().min(8).max(50),
 });
 const Login = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -68,13 +68,13 @@ const Login = () => {
             >
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Ex: John123"
+                        placeholder="Ex: John@example.com"
                         {...field}
                         className="h-14 rounded-full"
                       />
