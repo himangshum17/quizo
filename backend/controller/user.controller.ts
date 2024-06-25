@@ -152,3 +152,12 @@ export const loginUser = async (req: Request, res: Response) => {
     return res.status(500).send();
   }
 };
+
+export const logoutUser = (req: Request, res: Response) => {
+  return res
+    .cookie("AUTHENTICATED_USER_TOKEN", "", {
+      httpOnly: true,
+      expires: new Date(0),
+    })
+    .send();
+};
