@@ -11,14 +11,20 @@ import { Input } from "@/components/ui/input";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "@/routes";
 import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { loginData, loginUser } from "@/services/auth/login.register";
+import { useAppDispatch } from "@/store/hooks";
+import { userLogin } from "@/store/reducer/auth";
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(50),
 });
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,10 +32,20 @@ const Login = () => {
       password: "",
     },
   });
+
+  const loginUserSuccess = (data: loginData) => {
+    dispatch(userLogin(data));
+    navigate(ROUTES.SELECTCATEGORY);
+  };
+
+  const { mutateAsync: loginUserMutateAsync } = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      loginUserSuccess(data);
+    },
+  });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    loginUserMutateAsync(values);
   }
   useEffect(() => {
     if (form.formState.isSubmitSuccessful) {
