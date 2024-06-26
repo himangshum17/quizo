@@ -15,10 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "@/routes";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import {
-  createNewUser,
-  registerData,
-} from "@/services/auth/register/register.service";
+import { createNewUser, registerData } from "@/services/auth/register.service";
 import { userLogin } from "@/store/reducer/auth";
 import { useAppDispatch } from "@/store/hooks";
 const formSchema = z.object({
