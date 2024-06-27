@@ -18,6 +18,9 @@ import { useMutation } from "@tanstack/react-query";
 import { createNewUser, registerData } from "@/services/auth/register.service";
 import { userLogin } from "@/store/reducer/auth";
 import { useAppDispatch } from "@/store/hooks";
+import { isAxiosError } from "axios";
+import { useToast } from "@/components/ui/use-toast";
+import { LoaderCircle } from "lucide-react";
 const formSchema = z.object({
   fullname: z.string().min(2).max(50),
   username: z.string().min(2).max(50),
@@ -36,25 +39,44 @@ const Register = () => {
   });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { toast } = useToast();
   const createNewUserSuccess = (data: registerData) => {
     dispatch(userLogin(data));
     navigate(ROUTES.SELECTCATEGORY);
   };
-  const { mutateAsync: createNewUserMutateAsync } = useMutation({
+  const {
+    mutate: createNewUserMutate,
+    isPending,
+    isSuccess,
+  } = useMutation({
     mutationFn: createNewUser,
     onSuccess: (data) => {
       createNewUserSuccess(data);
     },
+    onError: (data) => {
+      if (isAxiosError(data)) {
+        toast({
+          variant: "destructive",
+          title: data.response?.data.message,
+        });
+        return;
+      }
+      toast({
+        variant: "destructive",
+        title: "Something went wrong...",
+      });
+    },
   });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    createNewUserMutateAsync(values);
+    createNewUserMutate(values);
   }
 
   useEffect(() => {
-    if (form.formState.isSubmitSuccessful) {
+    if (form.formState.isSubmitSuccessful && isSuccess) {
       form.reset();
     }
-  }, [form, form.formState.isSubmitSuccessful]);
+  }, [form, form.formState.isSubmitSuccessful, isSuccess]);
 
   return (
     <section className="min-h-dvh md:grid md:grid-cols-12 md:overflow-hidden">
@@ -150,7 +172,11 @@ const Register = () => {
               <Button
                 type="submit"
                 className="h-16 w-full rounded-full uppercase tracking-wide"
+                disabled={isPending}
               >
+                {isPending && (
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 register
               </Button>
               <p>
