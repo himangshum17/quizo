@@ -9,22 +9,19 @@ export const createUser = async (req: Request, res: Response) => {
 
     // validation
     if (!fullname || !username || !email || !password) {
-      return res.json({
-        status: 400,
+      return res.status(400).json({
         message: "Please enter all required fields.",
       });
     }
 
     if (username.length < 2) {
-      return res.json({
-        status: 400,
+      return res.status(400).json({
         message: "Please enter a username of at least 2 characters.",
       });
     }
 
     if (password.length < 8) {
-      return res.json({
-        status: 400,
+      return res.status(400).json({
         message: "Please enter a password of at least 8 characters.",
       });
     }
@@ -36,8 +33,7 @@ export const createUser = async (req: Request, res: Response) => {
     });
 
     if (isUserEmailExists) {
-      return res.json({
-        status: 400,
+      return res.status(400).json({
         message: "Email already exists, please use another email",
       });
     }
@@ -85,15 +81,13 @@ export const loginUser = async (req: Request, res: Response) => {
 
     // validation
     if (!email || !password) {
-      return res.json({
-        status: 400,
+      return res.status(400).json({
         message: "Please enter all required fields.",
       });
     }
 
     if (password.length < 8) {
-      return res.json({
-        status: 400,
+      return res.status(400).json({
         message: "Please enter a password of at least 8 characters.",
       });
     }
@@ -106,8 +100,7 @@ export const loginUser = async (req: Request, res: Response) => {
     });
 
     if (!existingUser) {
-      return res.json({
-        status: 401,
+      return res.status(401).json({
         message: "Wrong email or password.",
       });
     }
@@ -119,8 +112,7 @@ export const loginUser = async (req: Request, res: Response) => {
     );
 
     if (!isPasswordCorrect) {
-      return res.json({
-        status: 401,
+      return res.status(401).json({
         message: "Wrong email or password.",
       });
     }
