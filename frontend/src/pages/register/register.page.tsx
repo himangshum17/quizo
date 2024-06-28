@@ -57,7 +57,7 @@ const Register = () => {
       if (isAxiosError(data)) {
         toast({
           variant: "destructive",
-          title: data.response?.data.message,
+          title: data.response?.data.message || data?.message,
         });
         return;
       }
