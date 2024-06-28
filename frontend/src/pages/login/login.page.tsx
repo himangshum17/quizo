@@ -15,9 +15,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "@/routes";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { loginData, loginUser } from "@/services/auth/login.register";
+import { loginData, loginUser } from "@/services/auth/login.service";
 import { useAppDispatch } from "@/store/hooks";
 import { userLogin } from "@/store/reducer/auth";
+import { isAxiosError } from "axios";
+import { useToast } from "@/components/ui/use-toast";
+import { LoaderCircle } from "lucide-react";
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(50),
@@ -25,6 +28,7 @@ const formSchema = z.object({
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,20 +42,38 @@ const Login = () => {
     navigate(ROUTES.SELECTCATEGORY);
   };
 
-  const { mutateAsync: loginUserMutateAsync } = useMutation({
+  const {
+    mutate: loginUserMutate,
+    isPending,
+    isSuccess,
+  } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
       loginUserSuccess(data);
     },
+    onError: (data) => {
+      console.log("error data", data);
+      if (isAxiosError(data)) {
+        toast({
+          variant: "destructive",
+          title: data.response?.data.message || data?.message,
+        });
+        return;
+      }
+      toast({
+        variant: "destructive",
+        title: "Something went wrong...",
+      });
+    },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    loginUserMutateAsync(values);
+    loginUserMutate(values);
   }
   useEffect(() => {
-    if (form.formState.isSubmitSuccessful) {
+    if (form.formState.isSubmitSuccessful && isSuccess) {
       form.reset();
     }
-  }, [form, form.formState.isSubmitSuccessful]);
+  }, [form, form.formState.isSubmitSuccessful, isSuccess]);
 
   return (
     <section className="min-h-dvh md:grid md:grid-cols-12 md:overflow-hidden">
@@ -126,7 +148,11 @@ const Login = () => {
               <Button
                 type="submit"
                 className="h-16 w-full rounded-full uppercase tracking-wide"
+                disabled={isPending}
               >
+                {isPending && (
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 log in
               </Button>
             </form>
