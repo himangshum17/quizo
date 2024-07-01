@@ -8,7 +8,7 @@
     "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src/**/*.{ts,js} --fix",
     "start": "npm run build && node dist/index.js",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon server.ts",
     "prettier:format": "pnpm exec prettier . --write"
   },
   "dependencies": {
