@@ -1,8 +1,7 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import cors from "cors";
-import { HttpError } from "http-errors";
 import routes from "./routes/index";
-import { appConfig } from "./config/app.config";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 
 const app = express();
 
@@ -18,13 +17,6 @@ app.use(cors(corsOptions));
 app.use(routes);
 
 // global error handler
-app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
-  const statusCode = err.statusCode || 500;
-
-  return res.status(statusCode).json({
-    message: err.message,
-    errorStack: appConfig.env === "development" ? err.stack : "",
-  });
-});
+app.use(globalErrorHandler);
 
 export default app;
