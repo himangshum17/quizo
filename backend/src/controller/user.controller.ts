@@ -1,29 +1,37 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import createHttpError from "http-errors";
 import prisma from "../config/db.config";
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { fullname, username, email, password } = req.body;
 
     // validation
     if (!fullname || !username || !email || !password) {
-      return res.status(400).json({
-        message: "Please enter all required fields.",
-      });
+      const error = createHttpError(400, "Please enter all required fields.");
+      return next(error);
     }
 
     if (username.length < 2) {
-      return res.status(400).json({
-        message: "Please enter a username of at least 2 characters.",
-      });
+      const error = createHttpError(
+        400,
+        "Please enter a username of at least 2 characters.",
+      );
+      return next(error);
     }
 
     if (password.length < 8) {
-      return res.status(400).json({
-        message: "Please enter a password of at least 8 characters.",
-      });
+      const error = createHttpError(
+        400,
+        "Please enter a password of at least 8 characters.",
+      );
+      return next(error);
     }
 
     const isUserEmailExists = await prisma.user.findUnique({
@@ -33,9 +41,11 @@ export const createUser = async (req: Request, res: Response) => {
     });
 
     if (isUserEmailExists) {
-      return res.status(400).json({
-        message: "Email already exists, please use another email",
-      });
+      const error = createHttpError(
+        400,
+        "Email already exists, please use another email.",
+      );
+      return next(error);
     }
 
     // hasing the password
@@ -75,21 +85,26 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { email, password } = req.body;
 
     // validation
     if (!email || !password) {
-      return res.status(400).json({
-        message: "Please enter all required fields.",
-      });
+      const error = createHttpError(400, "Please enter all required fields.");
+      return next(error);
     }
 
     if (password.length < 8) {
-      return res.status(400).json({
-        message: "Please enter a password of at least 8 characters.",
-      });
+      const error = createHttpError(
+        400,
+        "Please enter a password of at least 8 characters.",
+      );
+      return next(error);
     }
 
     // checking if User exists
@@ -100,9 +115,8 @@ export const loginUser = async (req: Request, res: Response) => {
     });
 
     if (!existingUser) {
-      return res.status(401).json({
-        message: "Wrong email or password.",
-      });
+      const error = createHttpError(401, "Wrong email or password.");
+      return next(error);
     }
 
     // checking if password correct
@@ -112,9 +126,8 @@ export const loginUser = async (req: Request, res: Response) => {
     );
 
     if (!isPasswordCorrect) {
-      return res.status(401).json({
-        message: "Wrong email or password.",
-      });
+      const error = createHttpError(401, "Wrong email or password.");
+      return next(error);
     }
 
     // signing the token
