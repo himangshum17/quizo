@@ -1,5 +1,5 @@
 import app from "./src/index";
-import { appConfig } from "./config/app.config";
+import { appConfig } from "./src/config/app.config";
 
 const startServer = () => {
   const PORT = appConfig.port;
