@@ -1,16 +1,12 @@
-import { NextFunction, Request, Response } from "express";
-import { HttpError } from "http-errors";
+import { ErrorRequestHandler } from "express";
 import { appConfig } from "../config/app.config";
+import { INTERNAL_SERVER_ERROR } from "../constants/http";
 
-const globalErrorHandler = (
-  err: HttpError,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const statusCode = err.statusCode || 500;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  console.log(`PATH : ${req.path}`, err);
 
-  return res.status(statusCode).json({
+  return res.status(INTERNAL_SERVER_ERROR).json({
     message: err.message,
     errorStack: appConfig.env === "development" ? err.stack : "",
   });
