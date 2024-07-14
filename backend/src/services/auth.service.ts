@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import prisma from "../config/db.config";
-import { hashValue } from "../utils/bcrypt";
+import { compareValue, hashValue } from "../utils/bcrypt";
 import { appConfig } from "../config/app.config";
 
 type CreateUserAccountParams = {
@@ -43,4 +43,44 @@ const createUserAccount = async ({
   };
 };
 
-export { createUserAccount };
+type LoginUserAccountParams = {
+  email: string;
+  password: string;
+};
+
+const loginUserAccount = async ({
+  email,
+  password,
+}: LoginUserAccountParams) => {
+  // checking if User exists
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  if (!existingUser) {
+    throw new Error(`Invalid email or password`);
+  }
+
+  // checking if password correct
+  const isPasswordCorrect = await compareValue(password, existingUser.password);
+  if (!isPasswordCorrect) {
+    throw new Error(`Invalid email or password`);
+  }
+
+  // signing the token
+  const accessToken = jwt.sign(
+    {
+      user: existingUser.id,
+    },
+    appConfig.jwtSecret,
+  );
+
+  // return user and accessToken
+  return {
+    existingUser,
+    accessToken,
+  };
+};
+
+export { createUserAccount, loginUserAccount };
