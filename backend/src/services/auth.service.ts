@@ -3,6 +3,8 @@ import prisma from "../config/db.config";
 import { compareValue, hashValue } from "../utils/bcrypt";
 import { appConfig } from "../config/app.config";
 import { createSession } from "../utils/session";
+import { appAssert } from "../utils/appAssert";
+import { CONFLICT } from "../constants/http";
 
 type CreateUserAccountParams = {
   fullname: string;
@@ -23,9 +25,7 @@ const createUserAccount = async ({
       email,
     },
   });
-  if (isUserEmailExists) {
-    throw new Error(`User already exists`);
-  }
+  appAssert(!isUserEmailExists, CONFLICT, "Email already in use");
   const passwordHash = await hashValue(password);
   const user = await prisma.user.create({
     data: { fullname, username, email, password: passwordHash },
