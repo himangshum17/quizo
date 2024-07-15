@@ -2,18 +2,21 @@ import jwt from "jsonwebtoken";
 import prisma from "../config/db.config";
 import { compareValue, hashValue } from "../utils/bcrypt";
 import { appConfig } from "../config/app.config";
+import { createSession } from "../utils/session";
 
 type CreateUserAccountParams = {
   fullname: string;
   username: string;
   email: string;
   password: string;
+  userAgent: string;
 };
 const createUserAccount = async ({
   fullname,
   username,
   email,
   password,
+  userAgent,
 }: CreateUserAccountParams) => {
   const isUserEmailExists = await prisma.user.findUnique({
     where: {
@@ -28,18 +31,38 @@ const createUserAccount = async ({
     data: { fullname, username, email, password: passwordHash },
   });
 
+  // creating the session
+  const session = await createSession(user.id, userAgent);
+
   // signing the token
+  const refreshToken = jwt.sign(
+    {
+      sessionId: session.id,
+    },
+    appConfig.jwtRefreshSecret,
+    {
+      audience: ["user"],
+      expiresIn: "30d",
+    },
+  );
+
   const accessToken = jwt.sign(
     {
       user: user.id,
+      sessionId: session.id,
     },
     appConfig.jwtSecret,
+    {
+      audience: ["user"],
+      expiresIn: "15m",
+    },
   );
 
   // return user and accessToken
   return {
     user,
     accessToken,
+    refreshToken,
   };
 };
 

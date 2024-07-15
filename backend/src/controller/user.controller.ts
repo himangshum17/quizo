@@ -7,9 +7,12 @@ import { CREATED, OK } from "../constants/http";
 import { loginUserSchema } from "../schemas/loginUers.schema";
 
 export const createUser = catchErrors(async (req: Request, res: Response) => {
-  const request = createUserSchema.parse(req.body);
-  const { user, accessToken } = await createUserAccount(request);
-  return setAuthCookies({ res, accessToken })
+  const request = createUserSchema.parse({
+    ...req.body,
+    userAgent: req.headers["user-agent"],
+  });
+  const { user, accessToken, refreshToken } = await createUserAccount(request);
+  return setAuthCookies({ res, accessToken, refreshToken })
     .status(CREATED)
     .json({
       resultObject: {

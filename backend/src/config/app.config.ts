@@ -5,6 +5,7 @@ const config = {
   port: getEnv("PORT", "5000"),
   nodeEnv: getEnv("NODE_ENV"),
   jwtSecret: getEnv("JWT_SECRET"),
+  jwtRefreshSecret: getEnv("JWT_REFRESH_SECRET"),
   appOrigin: getEnv("APP_ORIGIN"),
 };
 
