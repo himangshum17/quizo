@@ -26,9 +26,13 @@ export const createUser = catchErrors(async (req: Request, res: Response) => {
 });
 
 export const loginUser = catchErrors(async (req: Request, res: Response) => {
-  const request = loginUserSchema.parse(req.body);
-  const { existingUser, accessToken } = await loginUserAccount(request);
-  return setAuthCookies({ res, accessToken })
+  const request = loginUserSchema.parse({
+    ...req.body,
+    userAgent: req.headers["user-agent"],
+  });
+  const { existingUser, accessToken, refreshToken } =
+    await loginUserAccount(request);
+  return setAuthCookies({ res, accessToken, refreshToken })
     .status(OK)
     .json({
       resultObject: {

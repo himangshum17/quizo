@@ -4,7 +4,7 @@ import { compareValue, hashValue } from "../utils/bcrypt";
 import { appConfig } from "../config/app.config";
 import { createSession } from "../utils/session";
 import { appAssert } from "../utils/appAssert";
-import { CONFLICT } from "../constants/http";
+import { CONFLICT, UNAUTHORIZED } from "../constants/http";
 
 type CreateUserAccountParams = {
   fullname: string;
@@ -69,11 +69,13 @@ const createUserAccount = async ({
 type LoginUserAccountParams = {
   email: string;
   password: string;
+  userAgent: string;
 };
 
 const loginUserAccount = async ({
   email,
   password,
+  userAgent,
 }: LoginUserAccountParams) => {
   // checking if User exists
   const existingUser = await prisma.user.findUnique({
@@ -81,28 +83,44 @@ const loginUserAccount = async ({
       email,
     },
   });
-  if (!existingUser) {
-    throw new Error(`Invalid email or password`);
-  }
+  appAssert(existingUser, UNAUTHORIZED, "Invalid email or password");
 
   // checking if password correct
   const isPasswordCorrect = await compareValue(password, existingUser.password);
-  if (!isPasswordCorrect) {
-    throw new Error(`Invalid email or password`);
-  }
+  appAssert(isPasswordCorrect, UNAUTHORIZED, "Invalid email or password");
+
+  // creating the session
+  const session = await createSession(existingUser.id, userAgent);
 
   // signing the token
+  const refreshToken = jwt.sign(
+    {
+      sessionId: session.id,
+    },
+    appConfig.jwtRefreshSecret,
+    {
+      audience: ["user"],
+      expiresIn: "30d",
+    },
+  );
+
   const accessToken = jwt.sign(
     {
       user: existingUser.id,
+      sessionId: session.id,
     },
     appConfig.jwtSecret,
+    {
+      audience: ["user"],
+      expiresIn: "15m",
+    },
   );
 
   // return user and accessToken
   return {
     existingUser,
     accessToken,
+    refreshToken,
   };
 };
 
