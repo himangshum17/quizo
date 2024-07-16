@@ -1,8 +1,12 @@
 import "dotenv/config";
+import { getEnv } from "../utils/coreutils";
 
 const config = {
-  port: process.env.PORT ?? 5000,
-  env: process.env.NODE_ENV,
+  port: getEnv("PORT", "5000"),
+  nodeEnv: getEnv("NODE_ENV"),
+  jwtSecret: getEnv("JWT_SECRET"),
+  jwtRefreshSecret: getEnv("JWT_REFRESH_SECRET"),
+  appOrigin: getEnv("APP_ORIGIN"),
 };
 
 export const appConfig = Object.freeze(config);

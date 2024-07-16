@@ -2,11 +2,12 @@ import express from "express";
 import cors from "cors";
 import routes from "./routes/index";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
+import { appConfig } from "./config/app.config";
 
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: appConfig.appOrigin,
   credentials: true,
 };
 // middlewares
