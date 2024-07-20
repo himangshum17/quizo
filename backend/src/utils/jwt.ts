@@ -1,4 +1,4 @@
-import jwt, { SignOptions } from "jsonwebtoken";
+import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
 import { appConfig } from "../config/app.config";
 
 export type RefreshTokenPayload = {
@@ -32,4 +32,25 @@ export const signToken = (
 ) => {
   const { secret, ...signOpts } = options ?? accessTokenSignOptions;
   return jwt.sign(payload, secret, { ...defaults, ...signOpts });
+};
+
+export const verifyToken = <TPayload extends object = AccessTokenPayload>(
+  token: string,
+  options?: VerifyOptions & { secret: string },
+) => {
+  const { secret = appConfig.jwtSecret, ...verifyOpts } = options ?? {};
+  try {
+    const payload = jwt.verify(token, secret, {
+      ...defaults,
+      ...verifyOpts,
+    }) as TPayload;
+    return {
+      payload,
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
 };
