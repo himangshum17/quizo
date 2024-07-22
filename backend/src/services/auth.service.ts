@@ -1,10 +1,9 @@
-import jwt from "jsonwebtoken";
 import prisma from "../config/db.config";
 import { compareValue, hashValue } from "../utils/bcrypt";
-import { appConfig } from "../config/app.config";
 import { createSession } from "../utils/session";
 import { appAssert } from "../utils/appAssert";
 import { CONFLICT, UNAUTHORIZED } from "../constants/http";
+import { refreshTokenSignOptions, signToken } from "../utils/jwt";
 
 type CreateUserAccountParams = {
   fullname: string;
@@ -33,30 +32,17 @@ const createUserAccount = async ({
 
   // creating the session
   const session = await createSession(user.id, userAgent);
+  const sessionInfo = {
+    sessionId: session.id,
+  };
 
   // signing the token
-  const refreshToken = jwt.sign(
-    {
-      sessionId: session.id,
-    },
-    appConfig.jwtRefreshSecret,
-    {
-      audience: ["user"],
-      expiresIn: "30d",
-    },
-  );
+  const refreshToken = signToken(sessionInfo, refreshTokenSignOptions);
 
-  const accessToken = jwt.sign(
-    {
-      user: user.id,
-      sessionId: session.id,
-    },
-    appConfig.jwtSecret,
-    {
-      audience: ["user"],
-      expiresIn: "15m",
-    },
-  );
+  const accessToken = signToken({
+    ...sessionInfo,
+    userId: user.id,
+  });
 
   // return user and accessToken
   return {
@@ -91,30 +77,16 @@ const loginUserAccount = async ({
 
   // creating the session
   const session = await createSession(existingUser.id, userAgent);
-
+  const sessionInfo = {
+    sessionId: session.id,
+  };
   // signing the token
-  const refreshToken = jwt.sign(
-    {
-      sessionId: session.id,
-    },
-    appConfig.jwtRefreshSecret,
-    {
-      audience: ["user"],
-      expiresIn: "30d",
-    },
-  );
+  const refreshToken = signToken(sessionInfo, refreshTokenSignOptions);
 
-  const accessToken = jwt.sign(
-    {
-      user: existingUser.id,
-      sessionId: session.id,
-    },
-    appConfig.jwtSecret,
-    {
-      audience: ["user"],
-      expiresIn: "15m",
-    },
-  );
+  const accessToken = signToken({
+    ...sessionInfo,
+    userId: existingUser.id,
+  });
 
   // return user and accessToken
   return {
