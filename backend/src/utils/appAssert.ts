@@ -1,5 +1,5 @@
 import assert from "assert";
-import { AppError } from "./apperror";
+import { AppError } from "./appError";
 import { HttpStatusCode } from "../constants/http";
 import { AppErrorCode } from "../constants/appErrorCode";
 
