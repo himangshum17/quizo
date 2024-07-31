@@ -52,7 +52,7 @@ const Trivia = ({ quizData }: TriviaProps) => {
       >
         {quizData[pageNumber - 1]?.answers.map((item) => (
           <div
-            className="has-[span]:ring-indigo-600 group relative flex items-center space-x-2 rounded-md bg-gray-100 px-8 py-4 ring-2 ring-gray-300"
+            className="group relative flex items-center space-x-2 rounded-md bg-gray-100 px-8 py-4 ring-2 ring-gray-300 has-[span]:ring-indigo-600"
             key={item.id}
           >
             <RadioGroupItem
@@ -62,7 +62,7 @@ const Trivia = ({ quizData }: TriviaProps) => {
             />
             <Label
               htmlFor={item.value}
-              className="group-has-[span]:text-indigo-600 cursor-pointer overflow-hidden after:absolute after:inset-0"
+              className="cursor-pointer overflow-hidden after:absolute after:inset-0 group-has-[span]:text-indigo-600"
             >
               {item.value}
             </Label>
