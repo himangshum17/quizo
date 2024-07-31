@@ -34,9 +34,13 @@ jobs:
         working-directory: frontend
 
       - name: Build Frontend
-        run: pnpm run build --if-present
+        run: pnpm run build
         working-directory: frontend
 
       - name: Run Lint
-        run: pnpm lint
+        run: pnpm run lint
+        working-directory: frontend
+
+      - name: Run Test
+        run: pnpm run test
         working-directory: frontend
