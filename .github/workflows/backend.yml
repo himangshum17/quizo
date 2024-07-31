@@ -1,14 +1,13 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
 name: Backend CI/CD
 
 on:
   push:
-    branches: [main]
-    paths:
-      - 'backend/**'
+    branches: ['main']
   pull_request:
-    branches: [main]
-    paths:
-      - 'backend/**'
+    branches: ['main']
 
 jobs:
   build:
@@ -16,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -26,7 +25,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm' # cache pnpm
 
       - name: Install pnpm
         run: npm install -g pnpm
@@ -36,9 +34,9 @@ jobs:
         working-directory: backend
 
       - name: Build Backend
-        run: pnpm run build --if-present
+        run: pnpm run build
         working-directory: backend
 
       - name: Run Lint
-        run: pnpm lint
+        run: pnpm run lint
         working-directory: backend
