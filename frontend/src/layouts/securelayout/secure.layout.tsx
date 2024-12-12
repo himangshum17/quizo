@@ -8,13 +8,36 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ROUTES } from "@/routes";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 import { CircleUser, Package2 } from "lucide-react";
-import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { logoutUser } from "@/services/auth/logout.service";
+import { userLogout } from "@/store/reducer/auth";
 
 const SecureLayout = () => {
   const location = useLocation();
   const isLogin = useAppSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const handleLogout = async () => {
+    const data = await queryClient.fetchQuery({
+      queryKey: ["todos"],
+      queryFn: logoutUser,
+    });
+    if (data.message === "Logout successful") {
+      dispatch(userLogout({}));
+      navigate(ROUTES.LOGIN);
+    }
+  };
 
   if (!isLogin) {
     return (
@@ -48,7 +71,7 @@ const SecureLayout = () => {
               <DropdownMenuSeparator />
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
