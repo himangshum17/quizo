@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ROUTES } from "@/routes";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { CircleUser, Package2 } from "lucide-react";
 import {
@@ -20,13 +20,15 @@ import {
 } from "react-router-dom";
 import { logoutUser } from "@/services/auth/logout.service";
 import { userLogout } from "@/store/reducer/auth";
+import { useAuth } from "@/hooks";
+import Loader from "@/components/ui/loader";
 
 const SecureLayout = () => {
   const location = useLocation();
-  const isLogin = useAppSelector((state) => state.auth.isLoggedIn);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { user, isLoading } = useAuth();
 
   const handleLogout = async () => {
     const data = await queryClient.fetchQuery({
@@ -34,12 +36,17 @@ const SecureLayout = () => {
       queryFn: logoutUser,
     });
     if (data.message === "Logout successful") {
+      queryClient.removeQueries({ queryKey: ["auth"] });
       dispatch(userLogout({}));
       navigate(ROUTES.LOGIN);
     }
   };
 
-  if (!isLogin) {
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!user) {
     return (
       <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace={true} />
     );

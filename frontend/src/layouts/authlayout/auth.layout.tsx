@@ -1,10 +1,14 @@
+import Loader from "@/components/ui/loader";
+import { useAuth } from "@/hooks";
 import { ROUTES } from "@/routes";
-import { useAppSelector } from "@/store/hooks";
 import { Navigate, Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
-  const isLogin = useAppSelector((state) => state.auth.isLoggedIn);
-  if (isLogin) {
+  const { user, isLoading } = useAuth();
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (user) {
     return <Navigate to={ROUTES.SELECTCATEGORY} replace={true} />;
   }
 
