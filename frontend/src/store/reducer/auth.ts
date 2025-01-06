@@ -10,11 +10,9 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     userLogin: (state, action) => {
-      state.isLoggedIn = true;
       state.userObject = action.payload;
     },
     userLogout: (state, action) => {
-      state.isLoggedIn = false;
       state.userObject = action.payload;
     },
   },
