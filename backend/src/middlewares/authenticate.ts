@@ -5,8 +5,8 @@ import { AppErrorCode } from "../constants/appErrorCode";
 import { verifyToken } from "../utils/jwt";
 
 const authenticate: RequestHandler = (req, res, next) => {
-  const accessToken = (req.cookies.accessToken as string) || undefined;
-  console.log("accessToken", accessToken);
+  const accessToken =
+    (req.cookies.AUTHENTICATED_USER_TOKEN as string) || undefined;
   appAssert(
     accessToken,
     UNAUTHORIZED,
