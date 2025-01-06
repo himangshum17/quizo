@@ -15,9 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "@/routes";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { loginData, loginUser } from "@/services/auth/login.service";
-import { useAppDispatch } from "@/store/hooks";
-import { userLogin } from "@/store/reducer/auth";
+import { loginUser } from "@/services/auth/login.service";
 import { isAxiosError } from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { LoaderCircle } from "lucide-react";
@@ -27,7 +25,6 @@ const formSchema = z.object({
 });
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,8 +34,7 @@ const Login = () => {
     },
   });
 
-  const loginUserSuccess = (data: loginData) => {
-    dispatch(userLogin(data));
+  const loginUserSuccess = () => {
     navigate(ROUTES.SELECTCATEGORY);
   };
 
@@ -48,9 +44,7 @@ const Login = () => {
     isSuccess,
   } = useMutation({
     mutationFn: loginUser,
-    onSuccess: (data) => {
-      loginUserSuccess(data);
-    },
+    onSuccess: loginUserSuccess,
     onError: (data) => {
       console.log("error data", data);
       if (isAxiosError(data)) {
